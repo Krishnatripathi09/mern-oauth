@@ -3,18 +3,20 @@ const express = require("express");
 const session = require("express-session");
 const passport = require("passport");
 require("./auth");
+
 const app = express();
+
 app.use(session({ secret: "cats" }));
 app.use(passport.initialize());
 app.use(passport.session());
 
-app.listen(3000, () => {
-  console.log("Server is listening on PORT 3000");
-});
-
 function isLoggedIn(req, res, next) {
-  res.user ? next() : res.sendStatus(401);
+  req.user ? next() : res.sendStatus(401);
 }
+
+app.get("/", (req, res) => {
+  res.send('<a href="/auth/google">Authenticate with Google</a>');
+});
 
 app.get(
   "/auth/google",
@@ -34,9 +36,15 @@ app.get("/auth/failure", (req, res) => {
 });
 
 app.get("/protected", isLoggedIn, (req, res) => {
-  res.send("Hello I am Protected Route!");
+  res.send(`Hello ${req.user.displayName}`);
 });
 
-app.get("/", (req, res) => {
-  res.send('<a href="/auth/google">Authenticate with Google</a>');
+app.get("/logout", (req, res) => {
+  req.logOut();
+  req.session.destroy();
+  res.send("GoodBye :)");
+});
+
+app.listen(3000, () => {
+  console.log("Server is listening on PORT 3000");
 });
