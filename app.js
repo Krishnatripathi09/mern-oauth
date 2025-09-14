@@ -6,6 +6,8 @@ require("./auth");
 
 const app = express();
 
+const PORT = 3000;
+
 app.use(session({ secret: "cats" }));
 app.use(passport.initialize());
 app.use(passport.session());
@@ -32,7 +34,7 @@ app.get(
 );
 
 app.get("/auth/failure", (req, res) => {
-  res.send("somwthing went Wrong...");
+  res.send("something went Wrong...");
 });
 
 app.get("/protected", isLoggedIn, (req, res) => {
@@ -45,6 +47,6 @@ app.get("/logout", (req, res) => {
   res.send("GoodBye :)");
 });
 
-app.listen(3000, () => {
+app.listen(PORT, () => {
   console.log("Server is listening on PORT 3000");
 });

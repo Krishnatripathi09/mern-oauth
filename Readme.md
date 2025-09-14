@@ -33,3 +33,11 @@ passport.use(
 Now go to https://console.cloud.google.com/ and then click on create credentials and select oauth clientID and there we provide the requested information and also provide requested callback URL on successful Authentication.
 
 Now once created we will replace our credentials with the oauth client credentials in our APP.
+
+```JS
+function isLoggedIn(req, res, next) {
+  req.user ? next() : res.sendStatus(401);
+}
+```
+
+Created a function isLoggedIn to see if a user is logged In or not.
