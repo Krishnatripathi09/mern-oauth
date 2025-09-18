@@ -6,11 +6,11 @@ require("./auth");
 
 const app = express();
 
-const PORT = 3000;
-
 app.use(session({ secret: "cats" }));
 app.use(passport.initialize());
 app.use(passport.session());
+
+const PORT = process.env.PORT;
 
 function isLoggedIn(req, res, next) {
   req.user ? next() : res.sendStatus(401);
