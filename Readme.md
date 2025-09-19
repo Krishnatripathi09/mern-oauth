@@ -41,3 +41,35 @@ function isLoggedIn(req, res, next) {
 ```
 
 Created a function isLoggedIn to see if a user is logged In or not.
+
+# Connecting with Neon-DB with prisma :
+
+1 - Signed up to Neon DB using email : 192
+2 - then got the connection String from there and put it in env file :
+
+3 - Installed the prisma and prisma client with command :
+npm install prisma --save-dev
+npm install @prisma/client
+
+And then run the command **npx prisma init** which will generate a folder prisma and also a file schema.prisma inside which we will define our model
+
+```JS
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        Int      @id @default(autoincrement())
+  firstName String
+  lastName  String
+  email     String   @unique
+  password  String
+  createdAt DateTime @default(now())
+}
+
+```
